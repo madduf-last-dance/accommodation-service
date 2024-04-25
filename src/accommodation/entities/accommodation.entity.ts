@@ -25,7 +25,7 @@ export class Accommodation {
   benefits: Benefit[];
 
   @Column()
-  photos: string[];
+  photos: string;
 
   @Column()
   @IsInt()
