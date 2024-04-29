@@ -9,7 +9,13 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
 @Module({
   imports: [
     ClientsModule.register([
-      { name: "USER_SERVICE", transport: Transport.TCP },
+      {
+        name: "USER_SERVICE",
+        transport: Transport.TCP,
+        options: {
+          port: 1313,
+        },
+      },
     ]),
     TypeOrmModule.forFeature([Accommodation, Benefit]),
   ],
