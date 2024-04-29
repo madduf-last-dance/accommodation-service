@@ -1,11 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAccommodationDto } from './dto/create-accommodation.dto';
-import { UpdateAccommodationDto } from './dto/update-accommodation.dto';
+import { Inject, Injectable } from "@nestjs/common";
+import { CreateAccommodationDto } from "./dto/create-accommodation.dto";
+import { UpdateAccommodationDto } from "./dto/update-accommodation.dto";
+import { ClientProxy } from "@nestjs/microservices";
 
 @Injectable()
 export class AccommodationService {
+  constructor(
+    @Inject("USER_SERVICE") private readonly client: ClientProxy,
+  ) {}
   create(createAccommodationDto: CreateAccommodationDto) {
-    return 'This action adds a new accommodation';
+    return "This action adds a new accommodation";
   }
 
   findAll() {
