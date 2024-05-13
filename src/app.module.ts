@@ -5,6 +5,7 @@ import { AccommodationModule } from "./accommodation/accommodation.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { Availability } from "./accommodation/entities/availability.entity";
 
 @Module({
   imports: [
