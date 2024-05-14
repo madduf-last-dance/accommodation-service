@@ -5,6 +5,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { Accommodation } from "./entities/accommodation.entity";
 import { Benefit } from "./entities/benefit.entity";
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { Availability } from "./entities/availability.entity";
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
         },
       },
     ]),
-    TypeOrmModule.forFeature([Accommodation, Benefit]),
+    TypeOrmModule.forFeature([Accommodation, Benefit, Availability]),
   ],
   controllers: [AccommodationController],
   providers: [AccommodationService],
