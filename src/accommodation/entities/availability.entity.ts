@@ -10,10 +10,10 @@ export class Availability {
     @ManyToOne(() => Accommodation, accommodation => accommodation.availability)
     accommodation: Accommodation;
 
-    @Column()
+    @Column({ type: "date" })
     startDate: Date;
 
-    @Column()
+    @Column({ type: "date" })
     endDate: Date;
 
     @Column()

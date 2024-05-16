@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { LessThan, MoreThan, Repository } from "typeorm";
 import { Accommodation } from "./entities/accommodation.entity";
 import { AccommodationDto } from "./dto/accommodation.dto";
 import { UpdateAccommodationDto } from "./dto/update-accommodation.dto";
@@ -49,29 +49,34 @@ export class AccommodationService {
     await this.accommodationRepository.remove(accommodation);
   }
 
-  async checkAvailability(aDto: AvailabilityDto): Promise<Accommodation> {
-    const accommodation = await this.accommodationRepository.findOne({
-      where: { id: aDto.accommodationId },
-      relations: ["availability"],
-    });
-    if (!accommodation) {
-      throw new NotFoundException("Accommodation not found");
-    }
-    console.log("heej")
-    const isAvailable = await this.availabilityRepository
-    .createQueryBuilder("availability")
-    .leftJoin("availability.accommodation", "accommodation")
-    .where("accommodation.id = :id", { id: aDto.accommodationId })
-    .andWhere("availability.startDate <= :endDate", { endDate: aDto.endDate })
-    .andWhere("availability.endDate >= :startDate", { startDate: aDto.startDate })
-    .getOne();
+  // numberOfGuests is from reservation from reservation-service and price, start-end date is from availability from accommodation-service
+  async calculateTotalPrice(accommodationId: number, numberOfGuests: number, price: number,
+    startDate: Date, endDate: Date
+  ): Promise<number>{
+    
+    const accommodation = await this.findOne(accommodationId);
+    const days = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
 
-    if (isAvailable) {
-      return accommodation;
+    if (accommodation.isPerGuest) {
+      return price * numberOfGuests * days;
     } else {
-      throw new NotFoundException("Accommodation not available for the specified dates");
+      return price * days;
     }
+  };
+
+  async checkAvailability(sDate: Date, eDate: Date, accommodationId: number,): Promise<boolean> {
+    const avaliable = await this.availabilityRepository.find({
+      where: {
+        startDate: MoreThan(sDate),
+        endDate: LessThan(eDate),
+        accommodation: { id: accommodationId },
+      },
+    });
+    if(avaliable.length > 0){
+      return true;
+    }
+    return false;
   }
-  
+ 
 
 }
