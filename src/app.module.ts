@@ -6,6 +6,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { Availability } from "./accommodation/entities/availability.entity";
+import { SeedModule } from "./seed/seed.module";
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { Availability } from "./accommodation/entities/availability.entity";
       autoLoadEntities: true,
       synchronize: true,
     }),
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
