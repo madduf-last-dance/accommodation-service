@@ -53,14 +53,14 @@ export class SeedService {
     const availabilities: Partial<Availability>[] = [
       {
           accommodation: savedAccommodation[0],
-          startDate: new Date(2024, 12, 1),
-          endDate: new Date(2024, 12, 26),
+          startDate: new Date(2024, 11, 1),
+          endDate: new Date(2024, 11, 26),
           price: 65,
       },
       {
           accommodation: savedAccommodation[0],
-          startDate: new Date(2024, 10, 1),
-          endDate: new Date(2024, 11, 30),
+          startDate: new Date(2024, 9, 1),
+          endDate: new Date(2024, 10, 30),
           price: 40,
       },
   ];
