@@ -36,7 +36,12 @@ export class AccommodationController {
   }
 
   @MessagePattern("checkAvailability")
-  async checkAvailability(aDto: AvailabilityDto): Promise<Accommodation> {
-    return this.accommodationService.checkAvailability(aDto);
+  async checkAvailability(aDto: AvailabilityDto): Promise<boolean> {
+    return this.accommodationService.checkAvailability(aDto.startDate, aDto.endDate, aDto.accommodationId);
+  }
+
+  @MessagePattern("calculateTotalPrice")
+  async calculateTotalPrice(accommodationId: number, numberOfGuests: number, price: number, startDate: Date, endDate: Date): Promise<number> {
+    return this.accommodationService.calculateTotalPrice(accommodationId, numberOfGuests, price, startDate, endDate);
   }
 }
