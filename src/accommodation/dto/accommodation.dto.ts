@@ -1,5 +1,4 @@
 import { IsInt, Min, IsString } from 'class-validator';
-import { Benefit } from '../entities/benefit.entity';
 
 export class AccommodationDto {
   @IsString()
@@ -8,7 +7,6 @@ export class AccommodationDto {
   @IsString()
   location: string;
 
-
   @IsInt()
   @Min(1)
   minimumGuests: number;
@@ -16,4 +14,6 @@ export class AccommodationDto {
   @IsInt()
   @Min(1)
   maximumGuests: number;
+
+  benefitIds: number[];
 }

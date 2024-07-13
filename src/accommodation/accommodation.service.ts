@@ -7,6 +7,8 @@ import { UpdateAccommodationDto } from "./dto/update-accommodation.dto";
 import { AvailabilityDto } from "./dto/availability.dto";
 import { Availability } from "./entities/availability.entity";
 import { MessagePattern } from "@nestjs/microservices";
+import { Benefit } from "./entities/benefit.entity";
+import { create } from "domain";
 
 @Injectable()
 export class AccommodationService {
@@ -15,10 +17,20 @@ export class AccommodationService {
     private readonly accommodationRepository: Repository<Accommodation>,
     @InjectRepository(Availability)
     private readonly availabilityRepository: Repository<Availability>,
+    @InjectRepository(Benefit)
+    private readonly benefitRepository: Repository<Benefit>,
   ) {}
 
   async create(createAccommodationDto: AccommodationDto): Promise<Accommodation> {
-    const accommodation = this.accommodationRepository.create(createAccommodationDto);
+    let accommodation = this.accommodationRepository.create(createAccommodationDto);
+    accommodation.benefits = [];
+    for (const id of createAccommodationDto.benefitIds) {
+        const benefit = await this.benefitRepository.findOne({where: {id}});
+        if(!benefit) {
+          throw new NotFoundException(`Benefit with '${id}' not found`);
+        }
+        accommodation.benefits.push(benefit);
+    }
     return await this.accommodationRepository.save(accommodation);
   }
 
