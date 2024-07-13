@@ -8,7 +8,6 @@ import { AvailabilityDto } from "./dto/availability.dto";
 import { Availability } from "./entities/availability.entity";
 import { MessagePattern } from "@nestjs/microservices";
 import { Benefit } from "./entities/benefit.entity";
-import { create } from "domain";
 
 @Injectable()
 export class AccommodationService {
