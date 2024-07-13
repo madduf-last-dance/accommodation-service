@@ -4,9 +4,7 @@ import { LessThan, MoreThan, Repository } from "typeorm";
 import { Accommodation } from "./entities/accommodation.entity";
 import { AccommodationDto } from "./dto/accommodation.dto";
 import { UpdateAccommodationDto } from "./dto/update-accommodation.dto";
-import { AvailabilityDto } from "./dto/availability.dto";
 import { Availability } from "./entities/availability.entity";
-import { MessagePattern } from "@nestjs/microservices";
 import { Benefit } from "./entities/benefit.entity";
 
 @Injectable()
@@ -22,14 +20,7 @@ export class AccommodationService {
 
   async create(createAccommodationDto: AccommodationDto): Promise<Accommodation> {
     let accommodation = this.accommodationRepository.create(createAccommodationDto);
-    accommodation.benefits = [];
-    for (const id of createAccommodationDto.benefitIds) {
-        const benefit = await this.benefitRepository.findOne({where: {id}});
-        if(!benefit) {
-          throw new NotFoundException(`Benefit with '${id}' not found`);
-        }
-        accommodation.benefits.push(benefit);
-    }
+    accommodation.benefits = await this.benefitRepository.findByIds(createAccommodationDto.benefitIds);
     return await this.accommodationRepository.save(accommodation);
   }
 
