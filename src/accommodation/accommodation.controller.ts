@@ -1,15 +1,17 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { AccommodationService } from './accommodation.service';
-import { CreateAccommodationDto } from './dto/create-accommodation.dto';
+import { AccommodationDto } from './dto/accommodation.dto';
 import { UpdateAccommodationDto } from './dto/update-accommodation.dto';
+import { AvailabilityDto } from './dto/availability.dto';
+import { Accommodation } from './entities/accommodation.entity';
 
 @Controller()
 export class AccommodationController {
   constructor(private readonly accommodationService: AccommodationService) {}
 
   @MessagePattern('createAccommodation')
-  create(@Payload() createAccommodationDto: CreateAccommodationDto) {
+  create(@Payload() createAccommodationDto: AccommodationDto) {
     return this.accommodationService.create(createAccommodationDto);
   }
 
@@ -31,5 +33,15 @@ export class AccommodationController {
   @MessagePattern('removeAccommodation')
   remove(@Payload() id: number) {
     return this.accommodationService.remove(id);
+  }
+
+  @MessagePattern("checkAvailability")
+  async checkAvailability(aDto: AvailabilityDto): Promise<boolean> {
+    return this.accommodationService.checkAvailability(aDto.startDate, aDto.endDate, aDto.accommodationId);
+  }
+
+  @MessagePattern("calculateTotalPrice")
+  async calculateTotalPrice(accommodationId: number, numberOfGuests: number, price: number, startDate: Date, endDate: Date): Promise<number> {
+    return this.accommodationService.calculateTotalPrice(accommodationId, numberOfGuests, price, startDate, endDate);
   }
 }

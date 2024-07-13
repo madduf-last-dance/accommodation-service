@@ -4,9 +4,15 @@ import { AppService } from "./app.service";
 import { AccommodationModule } from "./accommodation/accommodation.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
+import { ClientsModule, Transport } from "@nestjs/microservices";
+import { Availability } from "./accommodation/entities/availability.entity";
+import { SeedModule } from "./seed/seed.module";
 
 @Module({
   imports: [
+    ClientsModule.register([
+      { name: "USER_SERVICE", transport: Transport.TCP },
+    ]),
     ConfigModule.forRoot({
       envFilePath: [".env.dev", ".env"],
     }),
@@ -21,6 +27,7 @@ import { ConfigModule } from "@nestjs/config";
       autoLoadEntities: true,
       synchronize: true,
     }),
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
