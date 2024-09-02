@@ -8,7 +8,6 @@ export class AccommodationDto {
   @IsString()
   location: string;
 
-
   @IsInt()
   @Min(1)
   minimumGuests: number;
@@ -16,4 +15,6 @@ export class AccommodationDto {
   @IsInt()
   @Min(1)
   maximumGuests: number;
+
+  benefitIds: number[];
 }

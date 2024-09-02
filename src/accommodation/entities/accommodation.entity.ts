@@ -32,7 +32,7 @@ export class Accommodation {
   @OneToMany(() => Availability, availability => availability.accommodation)
   availability: Availability[];
 
-  @Column()
+  @Column({nullable: true})
   photos: string;
 
   @Column()
@@ -45,7 +45,7 @@ export class Accommodation {
   @Min(1)
   maximumGuests: number;
 
-  @Column()
+  @Column({default:false})
   isPerGuest: boolean; // True if price is per person, 
                       // False if price is for whole accommodation
 
