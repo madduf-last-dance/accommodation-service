@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { LessThan, MoreThan, Repository } from "typeorm";
 import { Accommodation } from "./entities/accommodation.entity";
@@ -6,6 +6,7 @@ import { AccommodationDto } from "./dto/accommodation.dto";
 import { UpdateAccommodationDto } from "./dto/update-accommodation.dto";
 import { Availability } from "./entities/availability.entity";
 import { Benefit } from "./entities/benefit.entity";
+import { ClientProxy } from "@nestjs/microservices";
 
 @Injectable()
 export class AccommodationService {
@@ -16,6 +17,8 @@ export class AccommodationService {
     private readonly availabilityRepository: Repository<Availability>,
     @InjectRepository(Benefit)
     private readonly benefitRepository: Repository<Benefit>,
+    @Inject("RESERVATION_SERVICE")
+    private readonly reservationClient: ClientProxy,
   ) {}
 
   async create(createAccommodationDto: AccommodationDto): Promise<Accommodation> {
@@ -80,5 +83,9 @@ export class AccommodationService {
     return false;
   }
  
+  async search(location: string, numberOfGuests: number, startDate: Date, endDate: Date) {
+    return await this.accommodationRepository.find();
+  }
 
 }
+

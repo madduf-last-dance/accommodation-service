@@ -17,6 +17,13 @@ import { Availability } from "./entities/availability.entity";
           port: 1313,
         },
       },
+      {
+        name: "RESERVATION_SERVICE",
+        transport: Transport.TCP,
+        options: {
+          port: 1315,
+        },
+      },
     ]),
     TypeOrmModule.forFeature([Accommodation, Benefit, Availability]),
   ],

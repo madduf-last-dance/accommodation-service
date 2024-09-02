@@ -44,4 +44,9 @@ export class AccommodationController {
   async calculateTotalPrice(accommodationId: number, numberOfGuests: number, price: number, startDate: Date, endDate: Date): Promise<number> {
     return this.accommodationService.calculateTotalPrice(accommodationId, numberOfGuests, price, startDate, endDate);
   }
+
+  @MessagePattern("search")
+  async search(location: string, numberOfGuests: number, startDate: Date, endDate: Date): Promise<Accommodation[]> {
+    return this.accommodationService.search(location, numberOfGuests, startDate, endDate);
+  }
 }

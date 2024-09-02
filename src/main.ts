@@ -16,5 +16,4 @@ async function bootstrap() {
   await app.get(SeedService).seed();
   await app.listen();
 }
-
 bootstrap();
