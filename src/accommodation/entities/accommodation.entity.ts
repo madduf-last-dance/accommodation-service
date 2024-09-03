@@ -29,10 +29,10 @@ export class Accommodation {
   @JoinTable()
   benefits: Benefit[];
 
-  @OneToMany(() => Availability, availability => availability.accommodation)
+  @OneToMany(() => Availability, (availability) => availability.accommodation)
   availability: Availability[];
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   photos: string;
 
   @Column()
@@ -45,8 +45,7 @@ export class Accommodation {
   @Min(1)
   maximumGuests: number;
 
-  @Column({default:false})
-  isPerGuest: boolean; // True if price is per person, 
-                      // False if price is for whole accommodation
-
+  @Column({ default: false })
+  isPerGuest: boolean; // True if price is per person,
+  // False if price is for whole accommodation
 }

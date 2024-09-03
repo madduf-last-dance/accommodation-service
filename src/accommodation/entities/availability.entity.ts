@@ -3,20 +3,18 @@ import { Accommodation } from "./accommodation.entity";
 
 @Entity()
 export class Availability {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @ManyToOne(() => Accommodation, (accommodation) => accommodation.availability)
+  accommodation: Accommodation;
 
-    @ManyToOne(() => Accommodation, accommodation => accommodation.availability)
-    accommodation: Accommodation;
+  @Column({ type: "date" })
+  startDate: Date;
 
-    @Column({ type: "date" })
-    startDate: Date;
+  @Column({ type: "date" })
+  endDate: Date;
 
-    @Column({ type: "date" })
-    endDate: Date;
-
-    @Column()
-    price: number;
-
+  @Column()
+  price: number;
 }

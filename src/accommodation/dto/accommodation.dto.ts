@@ -1,5 +1,5 @@
-import { IsInt, Min, IsString } from 'class-validator';
-import { Benefit } from '../entities/benefit.entity';
+import { IsInt, Min, IsString } from "class-validator";
+import { Benefit } from "../entities/benefit.entity";
 
 export class AccommodationDto {
   @IsString()
