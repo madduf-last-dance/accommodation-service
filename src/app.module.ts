@@ -12,6 +12,10 @@ import { SeedModule } from "./seed/seed.module";
   imports: [
     ClientsModule.register([
       { name: "USER_SERVICE", transport: Transport.TCP },
+      {
+        name: "RESERVATION_SERVICE",
+        transport: Transport.TCP,
+      },
     ]),
     ConfigModule.forRoot({
       envFilePath: [".env.dev", ".env"],

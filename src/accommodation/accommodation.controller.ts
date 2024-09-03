@@ -5,6 +5,8 @@ import { AccommodationDto } from "./dto/accommodation.dto";
 import { UpdateAccommodationDto } from "./dto/update-accommodation.dto";
 import { AvailabilityDto } from "./dto/availability.dto";
 import { Accommodation } from "./entities/accommodation.entity";
+import { SearchDto } from "./dto/search.dto";
+import { Availability } from "./entities/availability.entity";
 
 @Controller()
 export class AccommodationController {
@@ -72,5 +74,9 @@ export class AccommodationController {
   @MessagePattern("deleteHostAccommodations")
   async deleteHostAccommodations(hostId: number) {
     this.accommodationService.deleteHostAccommodations(hostId);
+  }
+  @MessagePattern("search")
+  async search(dto: SearchDto): Promise<any[]> {
+    return this.accommodationService.search(dto);
   }
 }
