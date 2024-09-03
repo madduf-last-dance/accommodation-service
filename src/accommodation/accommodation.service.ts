@@ -18,15 +18,9 @@ export class AccommodationService {
     private readonly benefitRepository: Repository<Benefit>,
   ) {}
 
-  async create(
-    createAccommodationDto: AccommodationDto,
-  ): Promise<Accommodation> {
-    let accommodation = this.accommodationRepository.create(
-      createAccommodationDto,
-    );
-    accommodation.benefits = await this.benefitRepository.findByIds(
-      createAccommodationDto.benefitIds,
-    );
+  async create(createAccommodationDto: AccommodationDto): Promise<Accommodation> {
+    let accommodation = this.accommodationRepository.create(createAccommodationDto);
+    accommodation.benefits = await this.benefitRepository.findByIds(createAccommodationDto.benefitIds);
     return await this.accommodationRepository.save(accommodation);
   }
 
