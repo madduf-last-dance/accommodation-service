@@ -9,6 +9,7 @@ async function bootstrap() {
     {
       transport: Transport.TCP,
       options: {
+        host: "accommodation-service",
         port: 1312,
       },
     },

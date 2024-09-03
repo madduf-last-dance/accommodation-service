@@ -6,9 +6,7 @@ import { Availability } from "src/accommodation/entities/availability.entity";
 import { Benefit } from "src/accommodation/entities/benefit.entity";
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Accommodation, Availability, Benefit])
-  ],
+  imports: [TypeOrmModule.forFeature([Accommodation, Availability, Benefit])],
   providers: [SeedService],
 })
 export class SeedModule {}
