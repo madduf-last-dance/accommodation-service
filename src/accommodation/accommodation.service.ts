@@ -110,7 +110,16 @@ export class AccommodationService {
     }
     return false;
   }
+  async findAllByHost(hostId: number): Promise<Accommodation[]> {
+    const accommodation = await this.accommodationRepository.find({
+      where: { hostId: hostId },
+    });
+    return accommodation;
+  }
 
+  deleteHostAccommodations(hostId: number) {
+    this.accommodationRepository.delete({ hostId });
+  }
   async search(dto: SearchDto): Promise<any[]> {
     const days = Math.ceil(
       (new Date(dto.endDate).getTime() - new Date(dto.startDate).getTime()) /

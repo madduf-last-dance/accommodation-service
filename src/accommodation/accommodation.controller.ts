@@ -66,6 +66,15 @@ export class AccommodationController {
     );
   }
 
+  @MessagePattern("findAllAccommodationsHost")
+  async findAllAccommodationsHost(hostId: number): Promise<Accommodation[]> {
+    return this.accommodationService.findAllByHost(hostId);
+  }
+
+  @MessagePattern("deleteHostAccommodations")
+  async deleteHostAccommodations(hostId: number) {
+    this.accommodationService.deleteHostAccommodations(hostId);
+  }
   @MessagePattern("search")
   async search(dto: SearchDto): Promise<any[]> {
     return this.accommodationService.search(dto);
