@@ -24,15 +24,15 @@ export class SeedService {
 
     const benefits: Partial<Benefit>[] = [
       {
-        name: "WC"
+        name: "WC",
       },
       {
-        name: "Air Conditioning"
+        name: "Air Conditioning",
       },
       {
-        name: "Terrace"
-      }
-    ] 
+        name: "Terrace",
+      },
+    ];
     const savedBenefits = await this.benefitRepository.save(benefits);
 
     const accommodations: Partial<Accommodation>[] = [
@@ -44,26 +44,27 @@ export class SeedService {
         photos: "xxx",
         minimumGuests: 1,
         maximumGuests: 12,
-        isPerGuest: true
+        isPerGuest: true,
       },
     ];
-    const savedAccommodation = await this.accommodationRepository.save(accommodations);
+    const savedAccommodation =
+      await this.accommodationRepository.save(accommodations);
 
     // YYYY-MM-DD
     const availabilities: Partial<Availability>[] = [
       {
-          accommodation: savedAccommodation[0],
-          startDate: new Date(2024, 11, 1),
-          endDate: new Date(2024, 11, 26),
-          price: 65,
+        accommodation: savedAccommodation[0],
+        startDate: new Date(2024, 11, 1),
+        endDate: new Date(2024, 11, 26),
+        price: 65,
       },
       {
-          accommodation: savedAccommodation[0],
-          startDate: new Date(2024, 9, 1),
-          endDate: new Date(2024, 10, 30),
-          price: 40,
+        accommodation: savedAccommodation[0],
+        startDate: new Date(2024, 9, 1),
+        endDate: new Date(2024, 10, 30),
+        price: 40,
       },
-  ];
+    ];
     await this.availabilityRepository.save(availabilities);
   }
 }
