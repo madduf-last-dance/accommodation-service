@@ -21,6 +21,7 @@ import { SeedModule } from "./seed/seed.module";
       envFilePath: [".env.dev", ".env"],
     }),
     AccommodationModule,
+    SeedModule,
     TypeOrmModule.forRoot({
       type: "postgres",
       host: process.env.DB_HOST,
@@ -31,7 +32,6 @@ import { SeedModule } from "./seed/seed.module";
       autoLoadEntities: true,
       synchronize: true,
     }),
-    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],

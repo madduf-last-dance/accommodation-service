@@ -12,4 +12,11 @@ export class SearchResultDto {
   totalPrice: number;
 
   singularPrice: number;
+
+  id:number;
+
+  benefits: string[];
+
+  name: String;
+
 }

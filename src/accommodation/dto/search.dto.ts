@@ -6,4 +6,8 @@ export class SearchDto {
   startDate: Date;
 
   endDate: Date;
+  
+  id:number;
+
+  benefits: string[];
 }

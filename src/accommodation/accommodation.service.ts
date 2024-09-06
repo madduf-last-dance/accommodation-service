@@ -18,6 +18,7 @@ import { SearchDto } from "./dto/search.dto";
 import { SearchResultDto } from "./dto/search-result.dto";
 import e from "express";
 import { elementAt } from "rxjs";
+import { relative } from "path";
 
 @Injectable()
 export class AccommodationService {
@@ -45,7 +46,10 @@ export class AccommodationService {
   }
 
   async findAll(): Promise<Accommodation[]> {
-    return await this.accommodationRepository.find();
+    return await this.accommodationRepository.find({
+    relations: ["availability"]
+    }
+    );
   }
 
   async findOne(id: number): Promise<Accommodation> {
@@ -100,11 +104,12 @@ export class AccommodationService {
   ): Promise<boolean> {
     const avaliable = await this.availabilityRepository.find({
       where: {
-        startDate: MoreThan(sDate),
-        endDate: LessThan(eDate),
+        startDate: LessThanOrEqual(sDate),
+        endDate:  MoreThanOrEqual(eDate),
         accommodation: { id: accommodationId },
       },
     });
+    console.log(avaliable);
     if (avaliable.length > 0) {
       return true;
     }
@@ -113,6 +118,7 @@ export class AccommodationService {
   async findAllByHost(hostId: number): Promise<Accommodation[]> {
     const accommodation = await this.accommodationRepository.find({
       where: { hostId: hostId },
+      relations: ["availability"], // "availability" relationship loading
     });
     return accommodation;
   }
@@ -141,6 +147,7 @@ export class AccommodationService {
     availabilities.forEach((element) =>
       dtos.push(this.processSearchResult(element, days)),
     );
+    console.log(dtos);
     return dtos;
   }
 
@@ -156,6 +163,9 @@ export class AccommodationService {
       endDate: availability.endDate,
       totalPrice: availability.price * numberOfDays,
       singularPrice: availability.price,
+      id: availability.accommodation.id,
+      benefits: [],
+      name: availability.accommodation.name
     };
   }
 }

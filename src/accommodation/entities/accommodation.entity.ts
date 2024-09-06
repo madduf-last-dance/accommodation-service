@@ -29,11 +29,12 @@ export class Accommodation {
   @JoinTable()
   benefits: Benefit[];
 
-  @OneToMany(() => Availability, (availability) => availability.accommodation)
+  @OneToMany(() => Availability, (availability) => availability.accommodation, { cascade: true})
   availability: Availability[];
 
-  @Column({ nullable: true })
-  photos: string;
+  // @Column("text",{ array: true, nullable: false, default: ()=>'array[]::text[]'})
+  @Column({ type: 'simple-array', default: '' })
+  photos: string[];
 
   @Column()
   @IsInt()
@@ -48,4 +49,6 @@ export class Accommodation {
   @Column({ default: false })
   isPerGuest: boolean; // True if price is per person,
   // False if price is for whole accommodation
+  @Column({ default: false })
+  isAutomatic: boolean; // True if price is per person,
 }

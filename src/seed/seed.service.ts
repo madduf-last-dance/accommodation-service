@@ -37,11 +37,11 @@ export class SeedService {
 
     const accommodations: Partial<Accommodation>[] = [
       {
-        hostId: 99,
+        hostId: 1,
         name: "MN Housing",
         location: "Mala Amerika, Zrenjanin",
         benefits: [savedBenefits[0], savedBenefits[2]],
-        photos: "xxx",
+        photos: ["xxx"],
         minimumGuests: 1,
         maximumGuests: 12,
         isPerGuest: true,
