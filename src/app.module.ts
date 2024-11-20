@@ -10,24 +10,7 @@ import { SeedModule } from "./seed/seed.module";
 
 @Module({
   imports: [
-    ClientsModule.register([
-      {
-        name: "USER_SERVICE",
-        transport: Transport.TCP,
-        options: {
-          host: 'user-service.default.svc.cluster.local',
-          port: 1313,
-        },
-      },
-      {
-        name: "RESERVATION_SERVICE",
-        transport: Transport.TCP,
-        options: {
-          host: 'reservation-service.default.svc.cluster.local',
-          port: 1315,
-        },
-      },
-    ]),
+    ClientsModule.register([]),
     AccommodationModule,
     SeedModule,
     TypeOrmModule.forRoot({
