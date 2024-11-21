@@ -2,6 +2,7 @@ import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { MicroserviceOptions, Transport } from "@nestjs/microservices";
 import { SeedService } from "./seed/seed.service";
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
@@ -14,6 +15,7 @@ async function bootstrap() {
       },
     },
   );
+  app.useLogger(new Logger());
   await app.get(SeedService).seed();
   await app.listen();
 }
