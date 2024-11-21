@@ -13,7 +13,7 @@ import { AccommodationDto } from "./dto/accommodation.dto";
 import { UpdateAccommodationDto } from "./dto/update-accommodation.dto";
 import { Availability } from "./entities/availability.entity";
 import { Benefit } from "./entities/benefit.entity";
-import { ClientProxy } from "@nestjs/microservices";
+import { ClientProxy, RpcException } from "@nestjs/microservices";
 import { SearchDto } from "./dto/search.dto";
 import { SearchResultDto } from "./dto/search-result.dto";
 import e from "express";
@@ -58,7 +58,7 @@ export class AccommodationService {
       relations: ["availability"], // "availability" relationship loading
     });
     if (!accommodation) {
-      throw new NotFoundException(`Accommodation with ID ${id} not found`);
+      throw new RpcException({ statusCode: 404, message: `Accommodation with ID ${id} not found`});
     }
     return accommodation;
   }
@@ -109,7 +109,6 @@ export class AccommodationService {
         accommodation: { id: accommodationId },
       },
     });
-    console.log(avaliable);
     if (avaliable.length > 0) {
       return true;
     }
