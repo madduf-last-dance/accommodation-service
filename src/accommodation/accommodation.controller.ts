@@ -7,6 +7,7 @@ import { AvailabilityDto } from "./dto/availability.dto";
 import { Accommodation } from "./entities/accommodation.entity";
 import { SearchDto } from "./dto/search.dto";
 import { Availability } from "./entities/availability.entity";
+import path from "path";
 
 @Controller()
 export class AccommodationController {
@@ -78,5 +79,12 @@ export class AccommodationController {
   @MessagePattern("search")
   async search(dto: SearchDto): Promise<any[]> {
     return this.accommodationService.search(dto);
+  }
+  @MessagePattern("saveAvailabilities")
+  async saveAvailabilities(payload: any) {
+    const accommodationId = payload.accommodationId;
+    const hostId = payload.hostId;
+    const availabilities = payload.availabilities;
+    this.accommodationService.saveAvailabilities(accommodationId, hostId, availabilities);
   }
 }
