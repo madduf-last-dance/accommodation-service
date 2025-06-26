@@ -73,8 +73,14 @@ export class AccommodationService {
     return await this.accommodationRepository.save(accommodation);
   }
 
-  async remove(id: number): Promise<void> {
-    const accommodation = await this.findOne(id);
+  async remove(id: number, hostId: number): Promise<void> {
+    const accommodation = await this.accommodationRepository.findOne({
+      where: { id, hostId: hostId},
+      relations: ["availability"],
+    });
+    if (!accommodation) {
+      throw new RpcException({ statusCode: 404, message: `Accommodation with ID ${id} not found`});
+    }
     await this.accommodationRepository.remove(accommodation);
   }
 
@@ -110,10 +116,8 @@ export class AccommodationService {
         accommodation: { id: accommodationId },
       },
     });
-    if (avaliable.length > 0) {
-      return true;
-    }
-    return false;
+    console.log(avaliable);
+    return (avaliable.length > 0);
   }
   async findAllByHost(hostId: number): Promise<Accommodation[]> {
     const accommodation = await this.accommodationRepository.find({

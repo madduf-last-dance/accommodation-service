@@ -37,8 +37,8 @@ export class AccommodationController {
   }
 
   @MessagePattern("removeAccommodation")
-  remove(@Payload() id: number) {
-    return this.accommodationService.remove(id);
+  async remove(@Payload() dto: any) {
+    return this.accommodationService.remove(dto.id, dto.hostId);
   }
 
   @MessagePattern("checkAvailability")
