@@ -22,6 +22,7 @@ import { relative } from "path";
 
 @Injectable()
 export class AccommodationService {
+
   constructor(
     @InjectRepository(Accommodation)
     private readonly accommodationRepository: Repository<Accommodation>,
@@ -166,5 +167,22 @@ export class AccommodationService {
       benefits: [],
       name: availability.accommodation.name
     };
+  }
+  async saveAvailabilities(id: number, hostId: number, availabilities: any): Promise<any> {
+    const accommodation = await this.accommodationRepository.findOne({
+      where: { id, hostId: hostId },
+      relations: ["availability"], // "availability" relationship loading
+    });
+    if (!accommodation) {
+      throw new RpcException({ statusCode: 404, message: `Accommodation with ID ${id} not found`});
+    }
+    availabilities.forEach((availability) => {
+      availability.accommodation = accommodation;
+      const availabilityModel = this.availabilityRepository.create(
+        availability
+      );
+      this.availabilityRepository.save(availabilityModel);
+    });
+    return "Saved availabilities";
   }
 }
