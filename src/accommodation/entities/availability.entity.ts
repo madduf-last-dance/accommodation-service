@@ -6,7 +6,7 @@ export class Availability {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Accommodation, (accommodation) => accommodation.availability)
+  @ManyToOne(() => Accommodation, (accommodation) => accommodation.availability, { onDelete: 'CASCADE' })
   accommodation: Accommodation;
 
   @Column({ type: "date" })
