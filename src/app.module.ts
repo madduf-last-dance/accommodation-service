@@ -13,6 +13,11 @@ import { SeedModule } from "./seed/seed.module";
     ClientsModule.register([]),
     AccommodationModule,
     SeedModule,
+    ConfigModule.forRoot(
+      {
+        envFilePath: ['.env']
+      }
+    ),
     TypeOrmModule.forRoot({
       type: "postgres",
       host: process.env.DB_HOST,
