@@ -189,4 +189,8 @@ export class AccommodationService {
     });
     return "Saved availabilities";
   }
+
+    async getAllBenefits(): Promise<Benefit[]> {
+    return await this.benefitRepository.find();
+  }
 }

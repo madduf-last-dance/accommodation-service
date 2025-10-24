@@ -87,4 +87,9 @@ export class AccommodationController {
     const availabilities = payload.availabilities;
     this.accommodationService.saveAvailabilities(accommodationId, hostId, availabilities);
   }
+
+  @MessagePattern("allBenefits")
+  async getAllBenefits() {
+    return this.accommodationService.getAllBenefits();
+  }
 }
