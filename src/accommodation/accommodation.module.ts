@@ -14,7 +14,7 @@ import { Availability } from "./entities/availability.entity";
         name: "USER_SERVICE",
         transport: Transport.TCP,
         options: {
-          host: 'user-service.default.svc.cluster.local',
+          host: 'localhost',
           port: 1313,
         },
       },
@@ -22,7 +22,7 @@ import { Availability } from "./entities/availability.entity";
         name: "RESERVATION_SERVICE",
         transport: Transport.TCP,
         options: {
-          host: 'reservation-service.default.svc.cluster.local',
+          host: 'localhost',
           port: 1315,
         },
       },

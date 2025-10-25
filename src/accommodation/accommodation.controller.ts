@@ -80,12 +80,12 @@ export class AccommodationController {
   async search(dto: SearchDto): Promise<any[]> {
     return this.accommodationService.search(dto);
   }
-  @MessagePattern("saveAvailabilities")
-  async saveAvailabilities(payload: any) {
-    const accommodationId = payload.accommodationId;
-    const hostId = payload.hostId;
-    const availabilities = payload.availabilities;
-    this.accommodationService.saveAvailabilities(accommodationId, hostId, availabilities);
+  @MessagePattern('saveAvailabilities')
+  async saveAvailabilities(@Payload() payload: any) {
+    const accommodationId = Number(payload.accommodationId);
+    const hostId = Number(payload.hostId);
+    const availabilities = Array.isArray(payload.availabilities) ? payload.availabilities : [];
+    return await this.accommodationService.saveAvailabilities(accommodationId, hostId, availabilities);
   }
 
   @MessagePattern("allBenefits")

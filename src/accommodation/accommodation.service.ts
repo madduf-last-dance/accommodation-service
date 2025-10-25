@@ -180,13 +180,13 @@ export class AccommodationService {
     };
   }
   async saveAvailabilities(
-    id: number,
-    hostId: number,
-    availabilities: any,
+  id: number,
+  hostId: number,
+  availabilities: any[],
   ): Promise<any> {
     const accommodation = await this.accommodationRepository.findOne({
-      where: { id, hostId: hostId },
-      relations: ["availability"], // "availability" relationship loading
+      where: { id, hostId },
+      relations: ["availability"],
     });
     if (!accommodation) {
       throw new RpcException({
@@ -194,12 +194,17 @@ export class AccommodationService {
         message: `Accommodation with ID ${id} not found`,
       });
     }
-    availabilities.forEach((availability) => {
+    console.log(hostId, availabilities)
+    for (const availability of availabilities) {
+  
+      availability.startDate = new Date(availability.startDate);
+      availability.endDate = new Date(availability.endDate);
+      console.log(availability)
       availability.accommodation = accommodation;
-      const availabilityModel =
-        this.availabilityRepository.create(availability);
-      this.availabilityRepository.save(availabilityModel);
-    });
+      const availabilityModel = this.availabilityRepository.create(availability);
+      await this.availabilityRepository.save(availabilityModel);
+    }
+
     return "Saved availabilities";
   }
 
