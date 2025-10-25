@@ -22,7 +22,6 @@ import { relative } from "path";
 
 @Injectable()
 export class AccommodationService {
-
   constructor(
     @InjectRepository(Accommodation)
     private readonly accommodationRepository: Repository<Accommodation>,
@@ -48,9 +47,8 @@ export class AccommodationService {
 
   async findAll(): Promise<Accommodation[]> {
     return await this.accommodationRepository.find({
-    relations: ["availability"]
-    }
-    );
+      relations: ["availability"],
+    });
   }
 
   async findOne(id: number): Promise<Accommodation> {
@@ -59,7 +57,10 @@ export class AccommodationService {
       relations: ["availability"], // "availability" relationship loading
     });
     if (!accommodation) {
-      throw new RpcException({ statusCode: 404, message: `Accommodation with ID ${id} not found`});
+      throw new RpcException({
+        statusCode: 404,
+        message: `Accommodation with ID ${id} not found`,
+      });
     }
     return accommodation;
   }
@@ -70,16 +71,22 @@ export class AccommodationService {
   ): Promise<Accommodation> {
     const accommodation = await this.findOne(id);
     this.accommodationRepository.merge(accommodation, updateAccommodationDto);
+    accommodation.benefits = await this.benefitRepository.findByIds(
+      updateAccommodationDto.benefitIds,
+    );
     return await this.accommodationRepository.save(accommodation);
   }
 
   async remove(id: number, hostId: number): Promise<void> {
     const accommodation = await this.accommodationRepository.findOne({
-      where: { id, hostId: hostId},
+      where: { id, hostId: hostId },
       relations: ["availability"],
     });
     if (!accommodation) {
-      throw new RpcException({ statusCode: 404, message: `Accommodation with ID ${id} not found`});
+      throw new RpcException({
+        statusCode: 404,
+        message: `Accommodation with ID ${id} not found`,
+      });
     }
     await this.accommodationRepository.remove(accommodation);
   }
@@ -112,12 +119,12 @@ export class AccommodationService {
     const avaliable = await this.availabilityRepository.find({
       where: {
         startDate: LessThanOrEqual(sDate),
-        endDate:  MoreThanOrEqual(eDate),
+        endDate: MoreThanOrEqual(eDate),
         accommodation: { id: accommodationId },
       },
     });
     console.log(avaliable);
-    return (avaliable.length > 0);
+    return avaliable.length > 0;
   }
   async findAllByHost(hostId: number): Promise<Accommodation[]> {
     const accommodation = await this.accommodationRepository.find({
@@ -169,28 +176,34 @@ export class AccommodationService {
       singularPrice: availability.price,
       id: availability.accommodation.id,
       benefits: [],
-      name: availability.accommodation.name
+      name: availability.accommodation.name,
     };
   }
-  async saveAvailabilities(id: number, hostId: number, availabilities: any): Promise<any> {
+  async saveAvailabilities(
+    id: number,
+    hostId: number,
+    availabilities: any,
+  ): Promise<any> {
     const accommodation = await this.accommodationRepository.findOne({
       where: { id, hostId: hostId },
       relations: ["availability"], // "availability" relationship loading
     });
     if (!accommodation) {
-      throw new RpcException({ statusCode: 404, message: `Accommodation with ID ${id} not found`});
+      throw new RpcException({
+        statusCode: 404,
+        message: `Accommodation with ID ${id} not found`,
+      });
     }
     availabilities.forEach((availability) => {
       availability.accommodation = accommodation;
-      const availabilityModel = this.availabilityRepository.create(
-        availability
-      );
+      const availabilityModel =
+        this.availabilityRepository.create(availability);
       this.availabilityRepository.save(availabilityModel);
     });
     return "Saved availabilities";
   }
 
-    async getAllBenefits(): Promise<Benefit[]> {
+  async getAllBenefits(): Promise<Benefit[]> {
     return await this.benefitRepository.find();
   }
 }
