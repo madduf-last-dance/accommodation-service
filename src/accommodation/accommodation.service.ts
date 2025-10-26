@@ -153,6 +153,9 @@ export class AccommodationService {
         "accommodation.minimumGuests <= :numberOfGuests AND accommodation.maximumGuests >= :numberOfGuests",
         { numberOfGuests: dto.numberOfGuests },
       )
+.andWhere("accommodation.location ILIKE :location", {
+        location: `%${dto.location}%`,
+      })
       .getMany();
     let dtos = [];
     availabilities.forEach((element) =>
