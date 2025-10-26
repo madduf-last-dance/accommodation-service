@@ -32,6 +32,30 @@ export class SeedService {
       {
         name: "Terrace",
       },
+       {
+        name: "Parking",
+      },
+       {
+        name: "Kitchen",
+      },
+       {
+        name: "Sea-View",
+      },
+       {
+        name: "Wifi",
+      },
+       {
+        name: "Breakfast",
+      },
+       {
+        name: "Bar",
+      },
+       {
+        name: "Restaurant",
+      },
+       {
+        name: "Flat-Screen TV",
+      },
     ];
     const savedBenefits = await this.benefitRepository.save(benefits);
 
