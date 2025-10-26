@@ -123,7 +123,7 @@ export class AccommodationService {
         accommodation: { id: accommodationId },
       },
     });
-    console.log(avaliable);
+    console.log("Availability Checker called %s", avaliable);
     return avaliable.length > 0;
   }
   async findAllByHost(hostId: number): Promise<Accommodation[]> {
@@ -134,9 +134,19 @@ export class AccommodationService {
     return accommodation;
   }
 
-  deleteHostAccommodations(hostId: number) {
-    this.accommodationRepository.delete({ hostId });
+ async deleteHostAccommodations(hostId: number): Promise<number> {
+  const accommodations = await this.accommodationRepository.find({
+    where: { hostId },
+    relations: ['availability'],
+    });
+
+    if (!accommodations || accommodations.length === 0) return 0;
+
+    await this.accommodationRepository.remove(accommodations);
+
+    return accommodations.length;
   }
+
   async search(dto: SearchDto): Promise<any[]> {
     const days = Math.ceil(
       (new Date(dto.endDate).getTime() - new Date(dto.startDate).getTime()) /

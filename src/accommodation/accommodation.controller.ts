@@ -72,10 +72,12 @@ export class AccommodationController {
     return this.accommodationService.findAllByHost(hostId);
   }
 
-  @MessagePattern("deleteHostAccommodations")
-  async deleteHostAccommodations(hostId: number) {
-    this.accommodationService.deleteHostAccommodations(hostId);
+ @MessagePattern("deleteHostAccommodations")
+  async deleteHostAccommodations(@Payload() hostId: number) {
+    const result = await this.accommodationService.deleteHostAccommodations(hostId);
+    return { success: true, deleted: result };
   }
+
   @MessagePattern("search")
   async search(dto: SearchDto): Promise<any[]> {
     return this.accommodationService.search(dto);
